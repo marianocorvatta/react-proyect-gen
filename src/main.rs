@@ -2,6 +2,12 @@ use std::io::{self};
 use std::process::{Command, Stdio};
 use crossterm::style::Stylize;
 
+struct Proyect {
+    name: String,
+    command: String,
+    args: String,
+}
+
 fn main() -> std::io::Result<()> {
     println!(); 
     println!("{}", "***************".bold().yellow());
@@ -9,7 +15,7 @@ fn main() -> std::io::Result<()> {
     println!("{}", "***************".bold().yellow());
     println!();
     println!("This program will create a new react proyect.");
-    println!(); 
+    println!();
 
     let mut proyect_name = String::new();
 
@@ -19,17 +25,54 @@ fn main() -> std::io::Result<()> {
     io::stdin()
         .read_line(&mut proyect_name)
         .expect("Failed to read line");
-        
-    let proyect_types = ["nextjs", "vitejs", "t3-app", "create-react-app", "react-native", "create-expo-app", "turborepo"];
+    
+    let projects: Vec<Proyect> = vec![
+        Proyect {
+            name: String::from("nextjs"),
+            command: String::from("npx"),
+            args: String::from("create-next-app@latest"),
+        },
+        Proyect {
+            name: String::from("vitejs"),
+            command: String::from("npm"),
+            args: String::from("create vite@latest"),
+        },
+        Proyect {
+            name: String::from("t3-app"),
+            command: String::from("npm"),
+            args: String::from("create t3-app@latest"),
+        },
+        Proyect {
+            name: String::from("create-react-app"),
+            command: String::from("npx"),
+            args: String::from("create-react-app"),
+        },
+        Proyect {
+            name: String::from("react-native"),
+            command: String::from("npx"),
+            args: String::from("react-native@latest init"),
+        },
+        Proyect {
+            name: String::from("create-expo-app"),
+            command: String::from("npx"),
+            args: String::from("create-expo-app"),
+        },
+        Proyect {
+            name: String::from("turborepo"),
+            command: String::from("npx"),
+            args: String::from("create-turbo@latest -e"),
+        },
+    ];
+    
     let mut proyect_selected = String::new();
 
     loop {
         println!();
         println!("Select the proyect type:");
 
-        for (index, proyect) in proyect_types.iter().enumerate() {
-            println!("{}. {}", index + 1, proyect);
-        }
+        for (index, project) in projects.iter().enumerate() {
+            println!("{}: {}", index + 1, project.name);
+        }    
         println!();
 
         io::stdin()
@@ -298,6 +341,25 @@ fn confirm_action() -> bool {
     confirm = confirm.trim().to_string();
 
     if confirm == "y" || confirm == "yes" {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+fn create_proyect (command: &String, args: &String, proyect_name: &String) -> bool {
+    let mut cmd = Command::new(command)
+        .arg(args)
+        .arg(proyect_name)
+        .stdin(Stdio::inherit())
+        .stdout(Stdio::inherit())
+        .stderr(Stdio::inherit())
+        .spawn()
+        .expect("failed to execute process");
+
+    let status = cmd.wait().expect("failed to wait for child process");
+    
+    if status.success() {
         return true;
     } else {
         return false;
