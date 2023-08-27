@@ -36,7 +36,7 @@ React proyect generator is a command-line tool that simplifies the process of se
    ```sh
    alias react-gen='~/bin/react-proyect-gen'
 
-## Supported Project Types
+## Supported Frameworks/Templates
 
 - Next.js
 - Vite.js
