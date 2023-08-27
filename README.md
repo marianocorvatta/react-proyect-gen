@@ -1,6 +1,6 @@
 # react-proyect-gen
 
-React proyect generator is a command-line tool that simplifies the process of selecting and creating React projects. With React proyect generator, you can easily choose from a variety of React project templates and have a new project set up in no time.
+React proyect generator is a command-line tool that simplifies the process of selecting and creating React projects. With RPG, you can easily choose from a variety of React project templates and have a new project set up in no time.
 
 ## How It Works
 
