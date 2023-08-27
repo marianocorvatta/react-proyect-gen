@@ -24,6 +24,18 @@ React proyect generator is a command-line tool that simplifies the process of se
 3. Open your terminal and navigate to the project directory.
 4. Run the program using the `cargo run` command.
 
+## Recommended Steps
+
+1. After running the program, you can generate an executable by building the project using the `cargo build --release` command.
+
+2. Once the build is successful, the executable will be located in the `target/release/` directory within the project folder.
+
+3. For convenience, consider moving the executable to a directory that's part of your system's PATH, such as `/usr/local/bin` or `~/bin`.
+
+4. To make it even more convenient, you can create an alias that points directly to the executable. For example, you can add the following line to your shell's configuration file (e.g., `.bashrc`, `.zshrc`):
+   ```sh
+   alias react-gen='~/bin/react-proyect-gen'
+
 ## Supported Project Types
 
 - Next.js
