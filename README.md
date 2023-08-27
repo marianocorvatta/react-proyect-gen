@@ -42,6 +42,8 @@ React proyect generator is a command-line tool that simplifies the process of se
 - Vite.js
 - T3-App
 - Create-React-App
+- React native bare
+- React native expo
 
 ## License
 

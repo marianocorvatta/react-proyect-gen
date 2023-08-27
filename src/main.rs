@@ -20,7 +20,7 @@ fn main() -> std::io::Result<()> {
         .read_line(&mut proyect_name)
         .expect("Failed to read line");
         
-    let proyect_types = ["nextjs", "vitejs", "t3-app", "create-react-app"];
+    let proyect_types = ["nextjs", "vitejs", "t3-app", "create-react-app", "react-native", "create-expo-app"];
     let mut proyect_selected = String::new();
 
     loop {
@@ -147,6 +147,7 @@ fn main() -> std::io::Result<()> {
 
             break;
         } else if proyect_selected == "4" || proyect_selected == "cra" || proyect_selected == "create-react-app" {
+            println!();
             println!("You selected: create-react-app !");
             let confirm = confirm_action();
 
@@ -178,7 +179,74 @@ fn main() -> std::io::Result<()> {
             }
 
             break;
-        } else {
+        } else if proyect_selected == "5" || proyect_selected == "react-native" {
+            println!();
+            println!("You selected: react-native !");
+            let confirm = confirm_action();
+
+            if confirm {
+                println!();
+                println!("Starting process...");
+                println!();
+
+                let mut cmd = Command::new("npx")
+                    .arg("react-native@latest")
+                    .arg("init")
+                    .arg(&proyect_name)
+                    .stdin(Stdio::inherit())
+                    .stdout(Stdio::inherit())
+                    .stderr(Stdio::inherit())
+                    .spawn()
+                    .expect("failed to execute process");
+
+                let status = cmd.wait().expect("failed to wait for child process");
+                
+                if status.success() {
+                    println!("{}", "Proyect created !".green().bold());
+                    println!();
+                    println!("To run the proyect:");
+                    println!("cd {}", proyect_name);
+                    println!("npx expo start");
+                    println!("and follow the instructions in this link https://reactnative.dev/docs/environment-setup?guide=quickstart&os=windows&platform=android");
+                } else {
+                    println!("{}", "Command failed".red().bold());
+                }
+            }
+
+            break;
+        } else if proyect_selected == "6" || proyect_selected == "create-expo-app" {
+            println!();
+            println!("You selected: create-expo-app !");
+            let confirm = confirm_action();
+
+            if confirm {
+                println!();
+                println!("Starting process...");
+                println!();
+
+                let mut cmd = Command::new("npx")
+                    .arg("create-expo-app")
+                    .arg(&proyect_name)
+                    .stdin(Stdio::inherit())
+                    .stdout(Stdio::inherit())
+                    .stderr(Stdio::inherit())
+                    .spawn()
+                    .expect("failed to execute process");
+
+                let status = cmd.wait().expect("failed to wait for child process");
+                
+                if status.success() {
+                    println!("{}", "Proyect created !".green().bold());
+                    println!();
+                    println!("To run the proyect:");
+                    println!("Follow the instructions in this link https://reactnative.dev/docs/environment-setup?guide=native");
+                } else {
+                    println!("{}", "Command failed".red().bold());
+                }
+            }
+
+            break;
+        }else {
             println!("{}", "Please select a valid option.".red().bold());
         }
     }
