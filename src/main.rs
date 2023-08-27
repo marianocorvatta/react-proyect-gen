@@ -5,7 +5,7 @@ use crossterm::style::Stylize;
 fn main() -> std::io::Result<()> {
     println!(); 
     println!("{}", "***************".bold().yellow());
-    println!("{}", "Hello, world from create code proyect!".bold().yellow());
+    println!("{}", "Hello from react-proyect-gen !".bold().yellow());
     println!("{}", "***************".bold().yellow());
     println!();
     println!("This program will create a new react proyect.");
