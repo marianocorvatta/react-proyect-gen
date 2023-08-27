@@ -20,7 +20,7 @@ fn main() -> std::io::Result<()> {
         .read_line(&mut proyect_name)
         .expect("Failed to read line");
         
-    let proyect_types = ["nextjs", "vitejs", "t3-app", "create-react-app", "react-native", "create-expo-app"];
+    let proyect_types = ["nextjs", "vitejs", "t3-app", "create-react-app", "react-native", "create-expo-app", "turborepo"];
     let mut proyect_selected = String::new();
 
     loop {
@@ -246,7 +246,40 @@ fn main() -> std::io::Result<()> {
             }
 
             break;
-        }else {
+        } else if proyect_selected == "7" || proyect_selected == "turborepo" {
+            println!();
+            println!("You selected: Turborepo react-native starter !");
+            let confirm = confirm_action();
+
+            if confirm {
+                println!();
+                println!("Starting process...");
+                println!();
+
+                let mut cmd = Command::new("npx")
+                    .arg("create-turbo@latest")
+                    .arg("-e")
+                    .arg(&proyect_name)
+                    .stdin(Stdio::inherit())
+                    .stdout(Stdio::inherit())
+                    .stderr(Stdio::inherit())
+                    .spawn()
+                    .expect("failed to execute process");
+
+                let status = cmd.wait().expect("failed to wait for child process");
+                
+                if status.success() {
+                    println!("{}", "Proyect created !".green().bold());
+                    println!();
+                    println!("To run the proyect:");
+                    println!("Follow the instructions in this link https://reactnative.dev/docs/environment-setup?guide=native");
+                } else {
+                    println!("{}", "Command failed".red().bold());
+                }
+            }
+
+            break;
+        } else {
             println!("{}", "Please select a valid option.".red().bold());
         }
     }

@@ -44,6 +44,7 @@ React proyect generator is a command-line tool that simplifies the process of se
 - Create-React-App
 - React native bare
 - React native expo
+- Turborepo
 
 ## License
 
