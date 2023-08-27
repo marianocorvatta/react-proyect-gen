@@ -1,6 +1,6 @@
 use std::io::{self};
 use std::process::{Command, Stdio};
-use crossterm::style::{Stylize};
+use crossterm::style::Stylize;
 
 fn main() -> std::io::Result<()> {
     println!(); 
