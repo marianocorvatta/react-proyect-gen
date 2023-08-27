@@ -50,7 +50,10 @@ fn main() -> std::io::Result<()> {
             let confirm = confirm_action();
 
             if confirm {
-                println!("Creating proyect...");
+                println!();
+                println!("Starting process...");
+                println!();
+
                 let mut cmd = Command::new("npx")
                     .arg("create-next-app@latest")
                     .arg(&proyect_name)
@@ -80,7 +83,9 @@ fn main() -> std::io::Result<()> {
             let confirm = confirm_action();
 
             if confirm {
-                println!("Creating proyect...");
+                println!();
+                println!("Starting process...");
+                println!();
 
                 let mut cmd = Command::new("npm")
                     .arg("create")
@@ -113,7 +118,10 @@ fn main() -> std::io::Result<()> {
             let confirm = confirm_action();
 
             if confirm {
-                println!("Creating proyect...");
+                println!();
+                println!("Starting process...");
+                println!();
+
                 let mut cmd = Command::new("npm")
                     .arg("create")
                     .arg("t3-app@latest")
@@ -143,7 +151,10 @@ fn main() -> std::io::Result<()> {
             let confirm = confirm_action();
 
             if confirm {
-                println!("Creating proyect...");
+                println!();
+                println!("Starting process...");
+                println!();
+
                 let mut cmd = Command::new("npx")
                     .arg("create-react-app")
                     .arg(&proyect_name)
