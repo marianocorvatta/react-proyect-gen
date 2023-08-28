@@ -142,8 +142,11 @@ fn create_proyect(name: &String, command: &String, args: &String, proyect_name: 
 
 fn confirm_action() -> bool {
     let mut confirm = String::new();
+    let mut stdout = stdout();
 
     println!("{}", "Are you sure? (y/n): ".bold());
+    stdout.execute(cursor::MoveUp(1)).unwrap();
+    stdout.execute(cursor::MoveRight(21)).unwrap();
 
     io::stdin()
         .read_line(&mut confirm)
