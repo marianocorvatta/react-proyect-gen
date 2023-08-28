@@ -1,8 +1,10 @@
 use std::io::{self, stdout};
 use std::process::{Command, Stdio};
 
+use crossterm::event::KeyEventKind;
 use crossterm::{
     ExecutableCommand,
+    event::{self, Event, KeyCode, KeyEvent},
     cursor, style::Stylize
 };
 
@@ -74,58 +76,39 @@ fn main() -> std::io::Result<()> {
         },
     ];
     
-    let mut template_selected = String::new();
-
     loop {
         println!();
         println!("{}", "Select the proyect type:".bold());
 
+        // ToDo: Hide cursor and make options selectable
+        // ToDo: if the user no confim the action the program should quit
+        // maybe remove the loop
+        
         for (index, project) in templates.iter().enumerate() {
             println!("{}: {}", index + 1, project.name);
         }    
         println!();
 
-        io::stdin()
-            .read_line(&mut template_selected)
-            .expect("Failed to read line");
-
-        template_selected = template_selected.trim().to_string();
-
-        if template_selected == "exit" {
-            println!();
-            println!("Bye!");
-            break;
-        }
- 
-        if template_selected == "1" || template_selected == "nextjs" {
-            create_proyect(&templates[0].name, &templates[0].command, &templates[0].args, &proyect_name);
-            break;
-        } else if template_selected == "2" || template_selected == "vitejs" {
-            create_proyect(&templates[1].name, &templates[1].command, &templates[1].args, &proyect_name);
-            break;
-        } else if template_selected == "3" || template_selected == "t3-app" {    
-            create_proyect(&templates[2].name, &templates[2].command, &templates[2].args, &proyect_name);
-            break;
-        } else if template_selected == "4" || template_selected == "cra" || template_selected == "create-react-app" {
-            create_proyect(&templates[3].name, &templates[3].command, &templates[3].args, &proyect_name);
-            break;
-        } else if template_selected == "5" || template_selected == "react-native" {
-            create_proyect(&templates[4].name, &templates[4].command, &templates[4].args, &proyect_name);
-            break;
-        } else if template_selected == "6" || template_selected == "create-expo-app" {
-            create_proyect(&templates[5].name, &templates[5].command, &templates[5].args, &proyect_name);
-            break;
-        } else if template_selected == "7" || template_selected == "turborepo" {
-            create_proyect(&templates[6].name, &templates[6].command, &templates[6].args, &proyect_name);
-            break;
-        } else {
-            println!("{}", "Please select a valid option.".red().bold());
+        match read_char()? {
+            '1' => create_proyect(&templates[0].name, &templates[0].command, &templates[0].args, &proyect_name),
+            '2' => create_proyect(&templates[1].name, &templates[1].command, &templates[1].args, &proyect_name),
+            '3' => create_proyect(&templates[2].name, &templates[2].command, &templates[2].args, &proyect_name),
+            '4' => create_proyect(&templates[3].name, &templates[3].command, &templates[3].args, &proyect_name),
+            '5' => create_proyect(&templates[4].name, &templates[4].command, &templates[4].args, &proyect_name),
+            '6' => create_proyect(&templates[5].name, &templates[5].command, &templates[5].args, &proyect_name),
+            '7' => create_proyect(&templates[6].name, &templates[6].command, &templates[6].args, &proyect_name),
+            'q' => {
+                println!();
+                println!("Bye!");
+                break;
+            },
+            _ => println!("Please select a valid option."),
         }
     }
     Ok(())
 }
 
-fn create_proyect(name: &String, command: &String, args: &String, proyect_name: &String) -> bool {
+fn create_proyect(name: &String, command: &String, args: &String, proyect_name: &String) {
     println!();
     println!("You selected: {} !", name);
 
@@ -148,12 +131,12 @@ fn create_proyect(name: &String, command: &String, args: &String, proyect_name: 
         let status = cmd.wait().expect("failed to wait for child process");
         
         if status.success() {
-            return true;
+            return;
         } else {
-            return false;
+            return;
         }
     } else {
-       return false;
+       return;
     }
 }
 
@@ -172,5 +155,19 @@ fn confirm_action() -> bool {
         return true;
     } else {
         return false;
+    }
+}
+
+pub fn read_char() -> std::io::Result<char> {
+    loop {
+        if let Ok(Event::Key(KeyEvent {
+            code: KeyCode::Char(c),
+            kind: KeyEventKind::Press,
+            modifiers: _,
+            state: _,
+        })) = event::read()
+        {
+            return Ok(c);
+        }
     }
 }
