@@ -5,7 +5,7 @@ use crossterm::event::KeyEventKind;
 use crossterm::{
     ExecutableCommand,
     event::{self, Event, KeyCode, KeyEvent},
-    cursor, style::Stylize
+    cursor, style::Stylize, style,
 };
 
 struct Proyect {
@@ -13,6 +13,24 @@ struct Proyect {
     command: String,
     args: String,
 }
+
+const MENU: &str = r#"
+***************
+
+ Select the proyect type:
+
+1. nextjs
+2. vitejs
+3. t3-app
+4. create-react-app
+5. react-native
+6. create-expo-app
+7. turborepo
+
+Select type to create a new proyect or press 'q' to quit.
+
+***************
+"#;
 
 fn main() -> std::io::Result<()> {
     println!(); 
@@ -25,12 +43,12 @@ fn main() -> std::io::Result<()> {
 
     let mut proyect_name = String::new();
 
-    println!("{}", "Please input your proyect name:".bold());
+    println!("{}", "Please input your proyect name ->".bold());
     println!();
 
     let mut stdout = stdout();
     stdout.execute(cursor::MoveUp(2)).unwrap();
-    stdout.execute(cursor::MoveRight(32)).unwrap();
+    stdout.execute(cursor::MoveRight(34)).unwrap();
 
     io::stdin()
         .read_line(&mut proyect_name)
@@ -84,9 +102,25 @@ fn main() -> std::io::Result<()> {
         // ToDo: if the user no confim the action the program should quit
         // maybe remove the loop
         
-        for (index, project) in templates.iter().enumerate() {
-            println!("{}: {}", index + 1, project.name);
-        }    
+        // for (index, project) in templates.iter().enumerate() {
+        //     println!("{}: {}", index + 1, project.name);
+        // }
+
+
+        for (index, line) in MENU.split('\n').enumerate() {
+            match index {
+                1 | 2 | 3 | 4 => stdout.execute(style::Print(line)).unwrap(),
+                5 => stdout.execute(style::Print(line.red())).unwrap(),
+                6 => stdout.execute(style::Print(line.yellow())).unwrap(),
+                7 => stdout.execute(style::Print(line.green())).unwrap(),
+                8 => stdout.execute(style::Print(line.blue())).unwrap(),
+                9 => stdout.execute(style::Print(line.magenta())).unwrap(),
+                10 => stdout.execute(style::Print(line.cyan())).unwrap(),
+                11 | 12 | 13 | 14 | 15 => stdout.execute(style::Print(line)).unwrap(),
+                _ => stdout.execute(style::Print(line)).unwrap(),
+            };
+            stdout.execute(cursor::MoveToNextLine(1)).unwrap();
+        }
         println!();
 
         match read_char()? {
