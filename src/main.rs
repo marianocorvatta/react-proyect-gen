@@ -1,6 +1,10 @@
-use std::io::{self};
+use std::io::{self, stdout};
 use std::process::{Command, Stdio};
-use crossterm::style::Stylize;
+
+use crossterm::{
+    ExecutableCommand,
+    cursor, style::Stylize
+};
 
 struct Proyect {
     name: String,
@@ -19,12 +23,18 @@ fn main() -> std::io::Result<()> {
 
     let mut proyect_name = String::new();
 
-    println!("Please input your proyect name...");
+    println!("{}", "Please input your proyect name:".bold());
     println!();
+
+    let mut stdout = stdout();
+    stdout.execute(cursor::MoveUp(2)).unwrap();
+    stdout.execute(cursor::MoveRight(32)).unwrap();
 
     io::stdin()
         .read_line(&mut proyect_name)
         .expect("Failed to read line");
+
+    proyect_name = proyect_name.trim().to_string();
     
     let templates: Vec<Proyect> = vec![
         Proyect {
@@ -68,7 +78,7 @@ fn main() -> std::io::Result<()> {
 
     loop {
         println!();
-        println!("Select the proyect type:");
+        println!("{}", "Select the proyect type:".bold());
 
         for (index, project) in templates.iter().enumerate() {
             println!("{}: {}", index + 1, project.name);
@@ -150,7 +160,7 @@ fn create_proyect(name: &String, command: &String, args: &String, proyect_name: 
 fn confirm_action() -> bool {
     let mut confirm = String::new();
 
-    println!("Are you sure? (y/n): ");
+    println!("{}", "Are you sure? (y/n): ".bold());
 
     io::stdin()
         .read_line(&mut confirm)
