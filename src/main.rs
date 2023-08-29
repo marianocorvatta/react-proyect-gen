@@ -176,7 +176,7 @@ fn confirm_action() -> bool {
     }
 }
 
-pub fn read_char() -> std::io::Result<char> {
+fn read_char() -> std::io::Result<char> {
     loop {
         if let Ok(Event::Key(KeyEvent {
             code: KeyCode::Char(c),
