@@ -5,7 +5,7 @@ use crossterm::event::KeyEventKind;
 use crossterm::{
     ExecutableCommand,
     event::{self, Event, KeyCode, KeyEvent},
-    cursor, style::Stylize, style,
+    cursor, style::Stylize,
 };
 
 struct Proyect {
@@ -13,24 +13,6 @@ struct Proyect {
     command: String,
     args: String,
 }
-
-const MENU: &str = r#"
-***************
-
- Select the proyect type:
-
-1. nextjs
-2. vitejs
-3. t3-app
-4. create-react-app
-5. react-native
-6. create-expo-app
-7. turborepo
-
-Select type to create a new proyect or press 'q' to quit.
-
-***************
-"#;
 
 fn main() -> std::io::Result<()> {
     println!(); 
@@ -96,31 +78,28 @@ fn main() -> std::io::Result<()> {
     
     loop {
         println!();
+        println!("{}", "***************".bold());
+        println!();
         println!("{}", "Select the proyect type:".bold());
+        println!();
 
-        // ToDo: Hide cursor and make options selectable
-        // ToDo: if the user no confim the action the program should quit
-        // maybe remove the loop
-        
-        // for (index, project) in templates.iter().enumerate() {
-        //     println!("{}: {}", index + 1, project.name);
-        // }
-
-
-        for (index, line) in MENU.split('\n').enumerate() {
-            match index {
-                1 | 2 | 3 | 4 => stdout.execute(style::Print(line)).unwrap(),
-                5 => stdout.execute(style::Print(line.red())).unwrap(),
-                6 => stdout.execute(style::Print(line.yellow())).unwrap(),
-                7 => stdout.execute(style::Print(line.green())).unwrap(),
-                8 => stdout.execute(style::Print(line.blue())).unwrap(),
-                9 => stdout.execute(style::Print(line.magenta())).unwrap(),
-                10 => stdout.execute(style::Print(line.cyan())).unwrap(),
-                11 | 12 | 13 | 14 | 15 => stdout.execute(style::Print(line)).unwrap(),
-                _ => stdout.execute(style::Print(line)).unwrap(),
+        for (index, project) in templates.iter().enumerate() {
+            match index + 1 {
+                1 => println!("{}: {}", index + 1, project.name.clone().blue()),
+                2 => println!("{}: {}", index + 1, project.name.clone().yellow()),
+                3 => println!("{}: {}", index + 1, project.name.clone().green()),
+                4 => println!("{}: {}", index + 1, project.name.clone().blue()),
+                5 => println!("{}: {}", index + 1, project.name.clone().magenta()),
+                6 => println!("{}: {}", index + 1, project.name.clone().cyan()),
+                7 => println!("{}: {}", index + 1, project.name.clone().dark_red()),
+                8 => println!("{}: {}", index + 1, project.name.clone().dark_red()),
+                _ => println!("{}: {}", index + 1, project.name.clone().grey()),
             };
-            stdout.execute(cursor::MoveToNextLine(1)).unwrap();
         }
+        println!();
+        println!("{}", "Select type to create a new proyect or press 'q' to quit.".bold());
+        println!();
+        println!("{}", "***************".bold());
         println!();
 
         match read_char()? {
@@ -133,7 +112,8 @@ fn main() -> std::io::Result<()> {
             '7' => create_proyect(&templates[6].name, &templates[6].command, &templates[6].args, &proyect_name),
             'q' => {
                 println!();
-                println!("Bye!");
+                println!("{}","Bye!".blue());
+                println!();
                 break;
             },
             _ => println!("Please select a valid option."),
@@ -145,6 +125,7 @@ fn main() -> std::io::Result<()> {
 fn create_proyect(name: &String, command: &String, args: &String, proyect_name: &String) {
     println!();
     println!("You selected: {} !", name);
+    println!();
 
     let confirm = confirm_action();
 
