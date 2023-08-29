@@ -46,6 +46,11 @@ React proyect generator is a command-line tool that simplifies the process of se
 - React native expo
 - Turborepo
 
+## ToDo
+
+- Make options selectable with the keyboard
+- Support more frameworks/templates
+
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
