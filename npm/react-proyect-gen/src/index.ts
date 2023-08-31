@@ -4,11 +4,11 @@ import { spawnSync } from "child_process";
 
 /**
  * Returns the executable path which is located inside `node_modules`
- * The naming convention is app-${os}-${arch}
+ * The naming convention is react-proyect-gen-${os}-${arch}
  * If the platform is `win32` or `cygwin`, executable will include a `.exe` extension.
  * @see https://nodejs.org/api/os.html#osarch
  * @see https://nodejs.org/api/os.html#osplatform
- * @example "x/xx/node_modules/app-darwin-arm64"
+ * @example "x/xx/node_modules/react-proyect-gen-darwin-arm64"
  */
 function getExePath() {
   const arch = process.arch;
