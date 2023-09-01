@@ -1,5 +1,5 @@
 {
-  "name": "react-proyect-gen",
+  "name": "react-proyect-gen-darwin-arm64",
   "version": "0.1.2",
   "description": "The macOS ARM 64-bit binary for react-proyect-gen.",
   "preferUnplugged": false,
